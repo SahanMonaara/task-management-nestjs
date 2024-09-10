@@ -1,3 +1,4 @@
+import { IsEnum, IsOptional, IsString } from 'class-validator';
 import { TaskStatus } from '../tasks.model';
 import { ApiProperty } from '@nestjs/swagger';
 
@@ -6,11 +7,15 @@ export class GetTasksFilterDto {
     description: 'TaskStatus',
     example: 'Done',
   })
+  @IsOptional()
+  @IsEnum(TaskStatus)
   status?: TaskStatus;
 
   @ApiProperty({
     description: 'Search string',
     example: 'Title',
   })
+  @IsOptional()
+  @IsString()
   search?: string;
 }

@@ -12,6 +12,8 @@ export class TasksService {
   getAllTasks(): Task[] {
     return this.tasks;
   }
+  //Filter and search
+
   getTasksWithFilters(filterDto: GetTasksFilterDto): Task[] {
     const { status, search } = filterDto;
 
@@ -64,6 +66,7 @@ export class TasksService {
 
   //This is for the delete tasks
   deleteTaskById(id: string): void {
-    this.tasks = this.tasks.filter((task) => task.id != id);
+    const found = this.getTaskById(id);
+    this.tasks = this.tasks.filter((task) => task.id != found.id);
   }
 }
