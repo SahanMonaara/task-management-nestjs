@@ -15,8 +15,8 @@ export class TasksService {
     return this.taskRepository.getAllTasks(filterDto, user);
   }
   // Get task by id
-  async getTaskById(id: string): Promise<Task> {
-    return this.taskRepository.getTaskById(id);
+  async getTaskById(id: string, user: User): Promise<Task> {
+    return this.taskRepository.getTaskById(id, user);
   }
 
   // //This is for the create tasks
@@ -25,11 +25,15 @@ export class TasksService {
   }
 
   // //This is for the updating tasks
-  async updateTaskStatus(id: string, status: TaskStatus): Promise<Task> {
-    return this.taskRepository.updateTask(id, status);
+  async updateTaskStatus(
+    id: string,
+    status: TaskStatus,
+    user: User,
+  ): Promise<Task> {
+    return this.taskRepository.updateTask(id, status, user);
   }
   //This is for the delete tasks
-  async deleteTaskById(id: string): Promise<void> {
-    return this.taskRepository.deleteTask(id);
+  async deleteTaskById(id: string, user: User): Promise<void> {
+    return this.taskRepository.deleteTask(id, user);
   }
 }
