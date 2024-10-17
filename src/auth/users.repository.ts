@@ -8,7 +8,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import * as bcrypt from 'bcrypt';
+import * as bcryptjs from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
 import { JwtPayLoad } from './jwt-payload.interface';
 
@@ -23,8 +23,8 @@ export class UserRepository {
   async createUser(authCredentialsDto: AuthCredentialsDto): Promise<void> {
     const { username, password } = authCredentialsDto;
 
-    const salt = await bcrypt.genSalt();
-    const hashedPassword = await bcrypt.hash(password, salt);
+    const salt = await bcryptjs.genSalt();
+    const hashedPassword = await bcryptjs.hash(password, salt);
 
     const user = this.userRepository.create({
       username,
@@ -47,7 +47,7 @@ export class UserRepository {
     const { username, password } = authCredentialsDto;
     try {
       const user = await this.userRepository.findOneBy({ username });
-      if (user && (await bcrypt.compare(password, user.password))) {
+      if (user && (await bcryptjs.compare(password, user.password))) {
         const payLoad: JwtPayLoad = { username };
         const accessToken = await this.jwtService.sign(payLoad);
         return { accessToken };
